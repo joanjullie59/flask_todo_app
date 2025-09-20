@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div>
+    <h1 class="text-center mb-4">FocusFlow - Your Tasks</h1>
+
+    <!-- Introduction Section -->
+    <div class="intro-section mb-4 p-4 bg-light rounded">
+        <h2>Welcome to FocusFlow!</h2>
+        <p>FocusFlow is a powerful task management tool that helps you organize your tasks, set due dates, reminders,
+            and track your productivity efficiently.</p>
+        <p>Get started by adding your first task using the form below. Stay focused, manage your workflow, and never
+            miss a deadline!</p>
+    </div>
+
+    <!-- Task Table -->
+    {% if tasks|length < 1 %}
+    <p class="text-center text-muted">No tasks yet. Add one below!</p>
+    {% else %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Task</th>
+            <th scope="col">Category</th>
+            <th scope="col">Due Date</th>
+            <th scope="col">Date Created</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>
+                {{ task.content }}
+                {% if task.reminder_active %}
+                <i class="fas fa-bell" style="color: orange;" title="Reminder Active"></i>
+                {% endif %}
+            </td>
+            <td>{{ task.category.name if task.category else 'No Category' }}</td>
+            <td>{{ task.due_date.strftime('%Y-%m-%d %H:%M') if task.due_date else 'No Due Date' }}</td>
+            <td>{{ task.date_created.date() }}</td>
+            <td>
+                <a href="{{ url_for('main.update', task_id=task.id) }}" class="btn btn-sm btn-primary me-2">Update</a>
+                <a href="{{ url_for('main.delete', task_id=task.id) }}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    <!-- Add Task Form -->
+    <form method="POST" class="d-flex mt-4" action="{{ url_for('main.index') }}">
+        {{ form.hidden_tag() }}
+        <input
+                type="text"
+                name="{{ form.content.name }}"
+                id="{{ form.content.id }}"
+                class="form-control me-2"
+                placeholder="Add a new task"
+                value="{{ form.content.data or '' }}"
+                required
+        />
+        {{ form.category(class="form-select flex-grow-1 me-2") }}
+        {{ form.due_date(class="form-control me-2", placeholder="Due Date") }}
+        <div class="form-check me-2">
+            {{ form.reminder_active(class_="form-check-input") }}
+            <label class="form-check-label">Set Reminder</label>
+        </div>
+        <div class="mb-3 me-2">
+            {{ form.reminder_time.label(class="form-label") }}
+            {{ form.reminder_time(class="form-select") }}
+        </div>
+        <button type="submit" class="btn btn-success">{{ form.submit.label.text }}</button>
+    </form>
+</div>
+{% endblock %}

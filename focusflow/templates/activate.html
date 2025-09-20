@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verify Your Email - FocusFlow</title>
+</head>
+<body>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2>Welcome to FocusFlow!</h2>
+        <p>Thank you for registering. Please verify your email address to complete your registration.</p>
+
+        <p>Click the button below to verify your email:</p>
+
+        <a href="{{ confirm_url }}"
+           style="background-color: #007bff; color: white; padding: 12px 24px;
+                  text-decoration: none; border-radius: 4px; display: inline-block;">
+            Verify Email
+        </a>
+
+        <p>Or copy and paste this link into your browser:</p>
+        <p style="word-break: break-all; color: #666;">{{ confirm_url }}</p>
+
+        <p>If you did not create an account with FocusFlow, please ignore this email.</p>
+
+        <hr>
+        <p style="color: #999; font-size: 12px;">
+            This is an automated message from FocusFlow. Please do not reply to this email.
+        </p>
+    </div>
+</body>
+</html>

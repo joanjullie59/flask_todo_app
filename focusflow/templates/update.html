@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container mt-5" style="max-width: 600px;">
+  <h1 class="mb-4">Update Task</h1>
+
+  <form action="{{ url_for('main.update', task_id=task.id) }}" method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.content.label(class="form-label") }}
+      {{ form.content(class="form-control", id="content") }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.category.label(class="form-label") }}
+      {{ form.category(class="form-select") }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.due_date.label(class="form-label") }}
+      {{ form.due_date(class="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{ form.submit.label.text or 'Update Task' }}</button>
+    <a href="{{ url_for('main.index') }}" class="btn btn-secondary ms-2">Cancel</a>
+  </form>
+</div>
+{% endblock %}
